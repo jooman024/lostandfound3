@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/View/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- Multipart Resolver -->
+	<beans:bean id="multi" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
+	
+	<context:property-placeholder location="classpath:/META-INF/config/application.properties" /> 
+	<context:component-scan base-package="icia.js.lostandfound" />
+	<interceptors>
+		<interceptor>
+			<mapping path="/**/"/>
+			<exclude-mapping path="/IssuanceJWT"/>
+			<exclude-mapping path="/getLostDataPolice" />
+			<exclude-mapping path="/getFoundDataPolice"/>
+			<exclude-mapping path="/getFoundDataPolicePortal"/>
+			<exclude-mapping path="/AuthStationGoogle"/>
+			<exclude-mapping path="/loging"/>
+			<exclude-mapping path="/AuthStationg"/>
+			<exclude-mapping path="/login/getKakaoAuthUrl"/>
+			<exclude-mapping path="/KaKaoLogout"/>
+			<exclude-mapping path="/AuthStationKakao"/>
+			<exclude-mapping path="/AuthStation"/>
+			<exclude-mapping path="/NaverLoginCheck"/>
+			<exclude-mapping path="/AuthStationNaver"/>
+			<exclude-mapping path="/AddInfo"/>
+			<exclude-mapping path="/Index"/>
+			<exclude-mapping path="/NaverLogout"/>
+			<exclude-mapping path="/GoogleLogout"/>
+			<exclude-mapping path="/certificationMMS"/>
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/test"/>
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/View/resources/**"/>
+			<beans:bean id="Interceptor" class="icia.js.lostandfound.utils.JwtIntercepter"/>
+		</interceptor>
+	</interceptors>
+	<cors>
+		<mapping path= "/**" allowed-origins="*" allowed-methods="*" allowed-headers="*"
+			exposed-headers="JWTForJSFramework"/>
+	</cors> 
+</beans:beans>
